@@ -10,7 +10,12 @@ export const saveStateToLocalStorage = (state: RootState) => {
 }
 
 export const loadStateFromLocalStorage = () => {
-    const stringifiedState = localStorage.getItem(LOCAL_STORAGE_KEY)
-    if(!stringifiedState)return undefined
-    return JSON.parse(stringifiedState)
+    try{
+        const stringifiedState = localStorage.getItem(LOCAL_STORAGE_KEY)
+        if(!stringifiedState)return undefined
+        return JSON.parse(stringifiedState)
+    } catch(e){return undefined;}
 }
+
+export const getHasUsedAppBefore = () => Boolean(loadStateFromLocalStorage());
+
