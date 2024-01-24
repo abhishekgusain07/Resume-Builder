@@ -1,0 +1,39 @@
+=> store.dispatch, actions, and how they relate to state changes in Redux:
+
+Redux Store:
+
+In Redux, the state of your application is managed by a single object known as the "store."
+The store is responsible for holding the current state tree of your application.
+store.dispatch:
+
+store.dispatch is a method provided by the Redux store. It is used to dispatch actions to the store.
+The dispatch function takes an action as an argument and triggers a process that leads to a state change in the store.
+Actions:
+
+An action in Redux is a plain JavaScript object that represents an intention to change the state. It is the only way to communicate with the store.
+Actions have a type property, which is a string that describes the type of action being performed. The type helps identify what kind of change is requested.
+Additional data (payload) can be included in the action to provide information necessary for the state change.
+Dispatching an Action:
+
+When you call store.dispatch(action), you are signaling to the Redux store that a certain action should be processed.
+Redux doesn't prescribe how you structure your actions, but a common practice is to create action creators, which are functions that return action objects. These action creators are then used with store.dispatch.
+Reducers and State Change:
+
+Reducers are functions responsible for specifying how the state changes in response to dispatched actions.
+Reducers take the current state and an action as arguments and return a new state based on that action.
+The Redux store calls the root reducer, which is a combination of all reducers in your application, to determine the new state.
+State Change Flow:
+
+When an action is dispatched, it flows through the reducers, and each reducer has the opportunity to respond to that action.
+The reducers return a new state based on the action, and this new state becomes the current state of the Redux store.
+Components that are connected to the store through React-Redux (or similar libraries) re-render when the state changes, updating the user interface.
+ ========================
+ ========================
+
+ store.subsribe()
+         // store.subscribe will just create a suscription to our store, it will be listening the store and waiting for it to change, every time the store changes it will execute the callback we passed to it. When we subscribe to the store, it returns a function to unregister that subscription later that we can call whenever we need.
+        
+==========================
+==========================
+
+

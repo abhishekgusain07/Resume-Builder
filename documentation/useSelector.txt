@@ -1,0 +1,151 @@
+The information that is out there is essentially talking about different levels of optimization while using useSelector. What you need to understand before anything else, is how useSelector works internally.
+
+How does useSelector work?
+When you pass a function to useSelector (obviously inside a react component), it essentially hooks on to the global redux state. Whenever any change happens in any part of the global state (i.e. when dispatch() is called from any part of the app), redux will run all the functions you passed to useSelector in your app, and perform certain checks.
+
+Redux will take the result from each function, and compare it to the value it got the last time it ran the same function.
+
+How does it make this comparison?
+It uses a reference equality for this comparison. So if redux has to think that the result of the function hasn't changed, either the value returned from the function has to be a primitive and equal.
+
+4 === 4 // true
+'itemA' === 'itemA // true
+Or, the value returned must be a derived data type (arrays, objects), with the same reference. So essentially the same object.
+
+const x = { name: 'Shashi' }
+const fn1 = () => x;
+const fn2 = () => x;
+const fn3 = () => { name: 'Shashi' }
+
+fn1() === fn2(); // true
+fn1() === fn3(); // false, because the objects are different, with different references
+In practice, redux changes the wrapping object if either a key (or key of a nested object) is changed, or you manually change the entire object using a dispatch action (This is related to the immer library integration). This is similar to how you would do in regular React.
+
+/* See how most keys are spread in, and will hence maintain reference equality.
+While certain keys like 'first', 'first.second', 'first.second[action.someId]' 
+are changed with new objects, and so will break reference equality */
+function handwrittenReducer(state, action) {
+  return {
+    ...state,
+    first: {
+      ...state.first,
+      second: {
+        ...state.first.second,
+        [action.someId]: {
+          ...state.first.second[action.someId],
+          fourth: action.someValue,
+        },
+      },
+    },
+  }
+}
+Otherwise it maintains the same objects within its state, and returns the exact same objects with the same references, when you access them. To verify this, if you access your cart twice, its literally going to be the same object.
+
+const cart1 = useSelector(state => state.cart)
+const cart2 = useSelector(state => state.cart)
+cart1 === cart2; // true
+What does it do with this comparison?
+If the comparison returns true, i.e. the new value is the same as the old value, Redux tells that instance of useSelector to chill tf out, and not do anything. If it returns false however, it tells that component to re-render. After all, the value you are accessing from state has "changed"(according to Redux laws), so you probably want to show the new value.
+
+With this information, we can make change the kind of function we pass to the useSelector, in order to get certain optimization benefits.
+
+Optimization Levels
+Level 0: Accessing slice data inline
+const cart = useSelector(state => state.cart)
+
+// extract the information you need from within the cart
+const itemInCart = cart.items[itemId];
+const count = itemInCart?.count || 0;
+This is not a good way to access the data. You actually need a subset of the data from the cart, but you are fetching the whole thing, and doing the calculation outside the selector.
+
+Problems:
+
+When you put stuff like this inline, what happens if you change the shape of your data in the future? You have to go to every place that uses useSelector and manually change it. Not so good.
+More importantly, every time any part of the cart changes, the entire cart object actually changes. So Redux sees your component that asks for the cart, and thinks
+The cart has changed. This component is asking for the cart. It should probably re-render.
+
+BAM Every single instance of this component rerenders. And for what? The count of the item you're referencing probably didn't change. So ideally there shouldn't have been a re-render.
+
+Level 1: Centralize the selector
+An easy optimization is to put the selector function in a centralized location next to your slice. That way, if your data shape changes in the future, you can just change it in one place, and your whole app (wherever it uses that data) will work with the new shape.
+
+// inside or next to the slice file
+const selectCart = (state) => state.cart
+
+//...
+// somewhere inside a react component
+const cart = useSelector(selectCart)
+Level 2: Access the relevant data
+Since redux is comparing the results of your selector function, if you want to avoid unnecessary rerenders, you want to make sure the results have reference equality (===). So target the exact value you wish to look at, in your selector.
+
+// extract the information you need from within the cart, *within the selector*
+const count = useSelector(state => state.cart.items[itemId]?.count || 0)
+// You don't have to use a one-liner, a multi-line function is better for readability
+When Redux executes these functions, it keeps a record of the value returned from these selector functions, for each individual useSelector. This time the values are going to be the same for every single counter, except the one that actually changed. All those other counters that didn't actually change in value don't have to unnecessarily re-render anymore!
+
+And if any of you folks think this is premature optimization, the answer's no. This is more along the lines of putting a dependancy array on your useEffects to avoid infinite loops.
+
+Not forgetting the Level 1 optimization, we can also extract this function centrally
+
+const selectItemById = (state, itemId) => (state.cart.items[itemId]?.count || 0);
+
+function CartItemCounter({ itemId }){
+  //...
+  // somewhere inside a react component
+  const count = useSelector((state) => selectCart(state, itemId))
+  //...
+}
+So that solves all of our problems right? For now, yes. But what if this selector function has to run some expensive computation.
+
+const selectSomething = (state) => reallyExpensiveFn(state.cart)
+
+//...
+// somewhere inside a react component
+const cart = useSelector(selectSomething)
+You don't want to keep running that do you?
+
+Or what if you have no option but to return new objects from your select function. A common scenario for this case would be returning a subset of data from the state.
+
+const selectFilteredItems = (state) => state.itemsArray.filter(checkCondition) // the filter method will always return a new array
+
+//...
+// somewhere inside a react component
+const cart = useSelector(selectFilteredItems) // re-renders every time
+To solve this you would have to memoize or cache the results from the function call. Essentially you would need to make sure that if the input arguments are the same, the result will maintain reference equality with the previous result. This introduces the need to maintain some kind of cache state.
+
+Level 3: createSelector
+Fortunately, Reselect library, which is reexported with Redux Tookit, does this work for you. You can take a look at the redux toolkit for the syntax.
+
+const selectFilteredItems = createSelector(
+  (state) => state.itemsArray, // the first argument accesses relevant data from global state
+  (itemsArray) => itemsArray.filter(checkCondition) // the second parameter conducts the transformation
+)
+
+//...
+// somewhere inside a react component
+const cart = useSelector(selectFilteredItems) // re-renders only when needed
+Here the second function is called the transformation function, and is where we put the expensive computation, or the function that returns inconsistent references as a result (filter,map etc). The createSelector caches
+
+a) the arguments to the transformation function
+b) the result of the transformation function of the previous call to the selectFilteredItems function. If the arguments are the same, it skips executing the transformation function, and gives you the result you got the last time it was executed.
+So when useSelector looks at the result, it gets reference equality. Hence the re-render is skipped!
+
+One little caveat here is that createSelector only caches the very previous result. This makes sense if you think about a single component. In a single component you are only concerned about differences in values and results compared to the previous render. But in practice, you are likely to share selectors across multiple components. If this happens, you have a single cache location, and multiple components using this cache. i.e. Stuff breaks.
+
+Level 4: createSelector factory function
+Since the logic for your selector is the same, what you need to do is run createSelector for each component that uses it. This creates a cache for each component, giving us the desired behaviour. In order to do this, we use a factory function.
+
+const makeSelectFilteredItems = () => createSelector(
+  (state) => state.itemsArray, // the first argument accesses relevant data from global state
+  (itemsArray) => itemsArray.filter(checkCondition) // the second parameter conducts the transformation
+)
+
+//...
+// somewhere inside a react component
+const selectFilteredItems = useMemo(makeSelectFilteredItems,[]); // make a new selector for each component, when it mounts
+const cart = useSelector(selectFilteredItems) // re-renders only when needed
+You intend to make a new selector (and by extension, cache) for each new component that mounts. So you put it inside the actual component function and not on the module scope. But this will re-run makeFilteredSelector for each render, and hence create a new selector for each render, and hence eliminate the cache. This is why you need to wrap the function in a useMemo with an empty dependency array. It runs on every mount.
+
+And voila!
+
+You now know where, why and how to use selectors in Redux. I personally feel that the createSelector syntaxes are slightly contrived. There is some discussion on changing cache sizes going on. But for now I feel that sticking to the docs should get you through most situations.
