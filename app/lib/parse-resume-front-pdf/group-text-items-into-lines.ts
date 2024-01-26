@@ -55,6 +55,8 @@ const shouldAddSpaceBetweenText = (leftText:string, rightText:string) => {
 
     return conditions.some((condition) => condition)
 }
+
+// getting width of the charecter which are most common in respect of its height and font in the whole pdf file
 const getCharWidth = (textItems: TextItems): number => {
     textItems = textItems.filter((item) => item.text.trim() != "");
 

@@ -1,4 +1,3 @@
-// import { parse } from "path";
 import { RootState } from "./store";
 
 const LOCAL_STORAGE_KEY = "GusainAbhisek"
@@ -18,4 +17,3 @@ export const loadStateFromLocalStorage = () => {
 }
 
 export const getHasUsedAppBefore = () => Boolean(loadStateFromLocalStorage());
-
