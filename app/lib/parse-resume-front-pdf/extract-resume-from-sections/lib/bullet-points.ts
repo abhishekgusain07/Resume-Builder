@@ -73,6 +73,7 @@ export const getbulletPointsFromLines = (lines: Lines): string[] => {
         lineStr = lineStr.slice(firstBulletPointIndex)
     }
     return lineStr.split(commonBulletPoint).map((text)=>text.trim()).filter((text) => !!text)
+    
 }
 
 // this function takes input as string, and tells which style of bullet point is most frequently present in the string.

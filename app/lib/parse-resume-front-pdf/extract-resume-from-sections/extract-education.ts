@@ -1,12 +1,12 @@
 import { ResumeEducation } from "@/app/lib/redux";
-import { FeatureSet, Lines, ResumeSectionToLines, Subsections, TextItem } from "../../types";
-import { getSectionLinesByKeywords } from "./get-section-lines";
-import { divideSectionIntoSubsections } from "./subsections";
-import { getTextWithHighestFeatureScore } from "./feature-scoring-system";
-import { hasAllNumbers, hasComma } from "../extract-profile";
-import { hasLetter } from "../../group-lines-into-sections";
-import { DATE_FEATURE_SET } from "./common-features";
-import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./bullet-points";
+import { FeatureSet, Lines, ResumeSectionToLines, Subsections, TextItem } from "../types";
+import { getSectionLinesByKeywords } from "./lib/get-section-lines";
+import { divideSectionIntoSubsections } from "./lib/subsections";
+import { getTextWithHighestFeatureScore } from "./lib/feature-scoring-system";
+import { hasAllNumbers, hasComma } from "./extract-profile";
+import { hasLetter } from "../group-lines-into-sections";
+import { DATE_FEATURE_SET } from "./lib/common-features";
+import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./lib/bullet-points";
 
 
 const SCHOOLS = ["College","University","Institue", "School", "Academy"]

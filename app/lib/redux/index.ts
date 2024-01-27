@@ -34,7 +34,7 @@ export interface FeaturedSkill {
 
 export interface ResumeSkills {
     featuredSkills: FeaturedSkill[];
-    descriptions: [];
+    descriptions: string[];
 }
 
 export interface ResumeCustom {
