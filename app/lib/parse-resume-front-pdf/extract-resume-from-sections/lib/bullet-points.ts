@@ -17,6 +17,7 @@ export const BULLET_POINTS = [
     "○",
 ];
 
+// function to get the index of first line where there is bullet point ahead it.
 const getFirstBulletPointLineIdx = (lines: Lines): number|undefined => {
     for(let i = 0; i < lines.length; ++i) {
         for (let item of lines[i]) {
@@ -27,11 +28,14 @@ const getFirstBulletPointLineIdx = (lines: Lines): number|undefined => {
     }
     return undefined;
 }
+
 const isWord = (str: string) => /^[^0-9]+$/.test(str)
 
 export const hasAtleast8Words = (item: TextItem) => {
     return item.text.split(/\s/).filter((s) => isWord(s)).length >= 8
 }
+
+// function to get the line from where the description starts.
 export const getDescriptionsLineIdx = (lines: Lines): number | undefined => {
     let idx = getFirstBulletPointLineIdx(lines);
     if(idx === undefined) {
@@ -45,6 +49,7 @@ export const getDescriptionsLineIdx = (lines: Lines): number | undefined => {
     }
     return idx;
 }
+
 // we pass lines into this function and it gives the lines back in bullet points.
 // used after we parse the resume and try to rebuild it.
 export const getbulletPointsFromLines = (lines: Lines): string[] => {
