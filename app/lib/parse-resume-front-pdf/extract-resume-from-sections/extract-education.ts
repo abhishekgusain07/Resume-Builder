@@ -1,5 +1,5 @@
 import { ResumeEducation } from "@/app/lib/redux";
-import { FeatureSet, Lines, ResumeSectionToLines, Subsections, TextItem } from "../types";
+import { FeatureSet, Lines, ResumeSectionToLines, Subsections, TextItem, TextScores } from "../types";
 import { getSectionLinesByKeywords } from "./lib/get-section-lines";
 import { divideSectionIntoSubsections } from "./lib/subsections";
 import { getTextWithHighestFeatureScore } from "./lib/feature-scoring-system";
@@ -9,6 +9,21 @@ import { DATE_FEATURE_SET } from "./lib/common-features";
 import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./lib/bullet-points";
 
 
+// necessary for builds
+type Education = {
+    school: string;
+    degree: string;
+    gpa: string;
+    date: string;
+    descriptions: string[];
+};
+
+type EducationScores = {
+    schoolScores: TextScores;
+    degreeScores: TextScores;
+    gpaScores: TextScores;
+    dateScores: TextScores;
+}
 const SCHOOLS = ["College","University","Institue", "School", "Academy"]
 export const hasSchool = (item: TextItem) => {
     return SCHOOLS.some((school) => item.text.includes(school));
@@ -49,7 +64,7 @@ const GPA_FEATURE_SET: FeatureSet[] = [
 ]
 export const extractEducation = (sections: ResumeSectionToLines) => {
     const educations : ResumeEducation[] = []
-    const eductaionScores = []
+    const eductaionScores: EducationScores[]= []
     const lines: Lines = getSectionLinesByKeywords(sections, ["education"]);
     const subsections: Subsections = divideSectionIntoSubsections(lines)
     ;
@@ -81,7 +96,7 @@ export const extractEducation = (sections: ResumeSectionToLines) => {
         }
 
         educations.push({school, degree, gpa, date, descriptions})
-        eductaionScores.push({schoolScores, degreeScores, gpaScores, dateScores})
+        eductaionScores.push({ schoolScores, degreeScores, gpaScores, dateScores })
 
         if(educations.length != 0) {
             const courseLines: Lines = getSectionLinesByKeywords(sections, ["course"]);

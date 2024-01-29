@@ -1,15 +1,20 @@
 import { ResumeProject } from "../../redux";
 import { isBold } from "../group-lines-into-sections";
-import { FeatureSet, Lines, ResumeSectionToLines, Subsections } from "../types";
+import { FeatureSet, Lines, ResumeSectionToLines, Subsections, TextScores } from "../types";
 import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./lib/bullet-points";
 import { DATE_FEATURE_SET, getHasText } from "./lib/common-features";
 import { getTextWithHighestFeatureScore } from "./lib/feature-scoring-system";
 import { getSectionLinesByKeywords } from "./lib/get-section-lines";
 import { divideSectionIntoSubsections } from "./lib/subsections";
 
+// for build
+type ProjectScores = {
+    projectScore: TextScores;
+    dateScores: TextScores;
+}
 export const extractProject = (sections: ResumeSectionToLines) => {
     const projects: ResumeProject[] = []
-    const projectscores = []
+    const projectscores: ProjectScores[] = []
     const lines: Lines = getSectionLinesByKeywords(sections, ["project"])
     const subsections:Subsections = divideSectionIntoSubsections(lines);
     for(const subsectionLines of subsections) {

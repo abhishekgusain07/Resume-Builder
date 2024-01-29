@@ -1,6 +1,6 @@
 import { ResumeWorkExperience } from "../../redux";
 import { isBold } from "../group-lines-into-sections";
-import { FeatureSet, ResumeSectionToLines, Subsections, TextItem } from "../types";
+import { FeatureSet, ResumeSectionToLines, Subsections, TextItem, TextScores } from "../types";
 import { hasAllNumbers } from "./extract-profile";
 import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./lib/bullet-points";
 import { DATE_FEATURE_SET, getHasText } from "./lib/common-features";
@@ -8,6 +8,14 @@ import { getTextWithHighestFeatureScore } from "./lib/feature-scoring-system";
 import { getSectionLinesByKeywords } from "./lib/get-section-lines";
 import { divideSectionIntoSubsections } from "./lib/subsections";
 
+
+
+// for build
+type WorkExperienceScores = {
+    companyScores: TextScores;
+    jobTitleScore: TextScores;
+    dateScores: TextScores
+}
 
 const WORK_EXPERIENCE_KEYWORD_LOWERCASE = [
     "work",
@@ -46,7 +54,7 @@ const JOB_FEATURE_LIST: FeatureSet[] = [
 
 export const extractWorkExperience = (sections: ResumeSectionToLines) => {
     const workExperiences: ResumeWorkExperience[] = []
-    const workExperiencesScore = []
+    const workExperiencesScore: WorkExperienceScores[] = []
 
     const lines = getSectionLinesByKeywords(
         sections,
