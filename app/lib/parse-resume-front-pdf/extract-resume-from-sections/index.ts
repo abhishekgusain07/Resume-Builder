@@ -14,7 +14,7 @@ export const extractResumeFromSections = (
     sections: ResumeSectionToLines
 ):Resume => {
     const {profile} = extractProfile(sections);
-    const {educations}:any = extractEducation(sections);
+    const {educations} = extractEducation(sections);
     const {workExperiences} = extractWorkExperience(sections);
     const  {projects} = extractProject(sections)
     const {skills} = extractSkills(sections);

@@ -169,7 +169,7 @@ export const ResumeDropZone = ({
                                             </button>
                                         )}
                                         <p className={cx(" text-gray-500 ", !playgroundView && "mt-6")}>
-                                            Note: {!playgroundView ? "Import":"Parser"} workds best on single column Resume
+                                            Note: {!playgroundView ? "Import":"Parser"} works best on single column Resume
                                         </p>       
                                 </>
                             )}

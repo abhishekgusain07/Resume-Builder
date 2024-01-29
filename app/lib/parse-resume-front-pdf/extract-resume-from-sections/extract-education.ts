@@ -106,6 +106,6 @@ export const extractEducation = (sections: ResumeSectionToLines) => {
                 )
             };
         }
-        return {educations, eductaionScores}
     }
+    return {educations, eductaionScores}
 };

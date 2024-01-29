@@ -54,7 +54,10 @@ export default function ImportResume() {
                             <h1 className="text-lg font-semibold text-gray-500">
                                 Import Data from an existing resume
                             </h1>
-                            <h1> Resume Drop Zone Componenet</h1>
+                            <ResumeDropZone 
+                                onFileUrlChange={onFileUrlChange}
+                                className="mt-5"
+                            />
                         </>
                     )
                 }
