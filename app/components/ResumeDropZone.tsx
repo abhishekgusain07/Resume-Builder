@@ -75,11 +75,11 @@ export const ResumeDropZone = ({
         if(getHasUsedAppBefore()) {
             const sections = Object.keys(settings.formToShow) as ShowForm[]
             const sectionToFormShow: Record<ShowForm, boolean> = {
-                workExperiences: resume.educations.length > 0,
-                educations: resume.educations.length > 0,
-                projects: resume.projects.length > 0,
-                skills: resume.skills.descriptions.length > 0,
-                custom: resume.custom.descriptions.length > 0
+                workExperiences: resume.educations?.length > 0,
+                educations: resume.educations?.length > 0,
+                projects: resume.projects?.length > 0,
+                skills: resume.skills?.descriptions.length > 0,
+                custom: resume.custom?.descriptions.length > 0
             }
 
             for(const section of sections) {
