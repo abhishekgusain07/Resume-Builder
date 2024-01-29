@@ -1,0 +1,4 @@
+Progress till now
+
+1. basic frontend
+2. logic to parser the resume given by user.
