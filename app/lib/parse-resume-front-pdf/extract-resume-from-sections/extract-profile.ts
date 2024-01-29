@@ -110,7 +110,7 @@ export const extractProfile = (sections: ResumeSectionToLines) => {
         textItems,
         LOCATION_FEATURE_SETS
     );
-    const [URL, URLScores] = getTextWithHighestFeatureScore(
+    const [url, urlScores] = getTextWithHighestFeatureScore(
         textItems,
         URL_FEATURE_SETS
     );
@@ -133,7 +133,7 @@ export const extractProfile = (sections: ResumeSectionToLines) => {
             email,
             phone, 
             location,
-            URL, 
+            url, 
             summary: summarySection || objectiveSection || summary,
         },
         profileScores: {
@@ -141,7 +141,7 @@ export const extractProfile = (sections: ResumeSectionToLines) => {
             email: emailScores,
             phone: phoneScores,
             location: locationScores,
-            URL: URLScores,
+            url: urlScores,
             summary: summaryScores
         }
     }
