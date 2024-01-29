@@ -73,5 +73,5 @@ export const hasLetter = (item: TextItem) => /[a-zA-Z]/.test(item.text);
 export const hasLetterAnsIsAllUpperCase = (item: TextItem) => hasLetter(item) && item.text.toUpperCase() === item.text;
 
 export const hasOnlyLetterSpaceAmpersands = (item: TextItem) => {
-    return /^[A-Za-Z\s&]+$/.test(item.text)
+    return /^[A-Za-z\s&]+$/.test(item.text)
 }
