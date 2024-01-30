@@ -183,7 +183,9 @@ export type ResumeState = ReturnType<typeof resumeSlice.reducer>
 
 
 //  =============== SELECTORS ==============
-// Selectors are functions that take the Redux state as an argument and return specific pieces of the state. They help in efficiently accessing and deriving data from the Redux store. For instance, selectThemeColor returns the themeColor from the Redux state.
+// Selectors are functific pieces of the state. They help in efficiently accessing and deriving data from the Redux store. For instance, selectTheions that take the Redux state as an argument and return specmeColor returns the themeColor from the Redux state.
+
+//whenever the selected part changes the componenet re-renders.
 
 export const selectResume = (state: RootState) => state.resume;
 export const selectProfile = (state: RootState) => state.resume.profile;

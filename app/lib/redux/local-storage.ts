@@ -1,6 +1,8 @@
 import { RootState } from "./store";
 
 const LOCAL_STORAGE_KEY = "GusainAbhisek"
+
+// This function is intended to persistently store a serialized representation of the application state in the browser's local storage.
 export const saveStateToLocalStorage = (state: RootState) => {
     try {
         const stringifiedState = JSON.stringify(state)
@@ -8,6 +10,8 @@ export const saveStateToLocalStorage = (state: RootState) => {
     } catch (e) {}
 }
 
+
+// Retrieves and deserialize the application state from the browser localstorage.
 export const loadStateFromLocalStorage = () => {
     try{
         const stringifiedState = localStorage.getItem(LOCAL_STORAGE_KEY)

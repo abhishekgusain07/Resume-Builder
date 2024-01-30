@@ -12,14 +12,19 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const useSaveStateStoreToLocalStorage = () => {
     useEffect(() => {
-
+        // subscribe to the Redux Store, so the callback is invoked whenever the state changes.
         const unsubscribe = store.subscribe(()=>{
+            // call the saveStateToLocalStorage function with current state
             saveStateToLocalStorage(store.getState());
         })
+
+        // Unsubscribe when the component unmounts or when the dependency array is empty.
         return unsubscribe
     },[])
 }
 
+
+// hooks that checks if there was a state earlier in the localstorage, if it is then it loads it in and set it as the current state, otherwise return with nothing.
 export const useSetInitialStore = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
