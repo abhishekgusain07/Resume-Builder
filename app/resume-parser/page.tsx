@@ -100,7 +100,7 @@ export default function ResumeParser() {
                                     <Heading level={2} className="!mt-[1.2em]">
                                         Resume Parsing Results
                                     </Heading>
-                                    <ResumeTable resume={initialResumeState}/>
+                                    <ResumeTable resume={resume}/>
                                     <h2>Parsing Algorithms Steps</h2>
                                     <ResumeParserAlgorightmArticle />
                     </section>
