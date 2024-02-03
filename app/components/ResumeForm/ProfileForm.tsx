@@ -1,3 +1,4 @@
+"use client"
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hooks"
 import { changeProfile, selectProfile } from "@/app/lib/redux/resumeSlice"
 import { BaseForm } from "./Form";

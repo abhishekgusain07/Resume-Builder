@@ -6,6 +6,8 @@ import { selectSettings } from "@/app/lib/redux/settingSlice";
 import { useState } from "react"
 import { FlexBoxSpacer } from "../FlexBoxSpacer";
 import { ResumeIFrameSSR } from "./ResumeIFrame";
+import { ResumePDFProfile } from "./ResumePDF/ResumePDFProfile";
+import { ResumePDF } from "./ResumePDF";
 
 
 
@@ -23,7 +25,7 @@ export const Resume = () => {
                     <ResumeIFrameSSR documentSize={settings.documentSize} scale={scale}
                     enablePdfViewer={false}
                     >
-                        
+                        <ResumePDF resume={resume} settings={settings} isPDF={false}/>
                     </ResumeIFrameSSR>
                 </section>
             </div>
