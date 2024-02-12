@@ -20,7 +20,7 @@ export const BULLET_POINTS = [
 // function to get the index of first line where there is bullet point ahead it.
 const getFirstBulletPointLineIdx = (lines: Lines): number|undefined => {
     for(let i = 0; i < lines.length; ++i) {
-        for (let item of lines[i]) {
+        for (let item of lines[i]!) {
             if(BULLET_POINTS.some((bullet) => item.text.includes(bullet))) {
                 return i;
             }
@@ -40,8 +40,8 @@ export const getDescriptionsLineIdx = (lines: Lines): number | undefined => {
     let idx = getFirstBulletPointLineIdx(lines);
     if(idx === undefined) {
         for(let i = 0; i < lines.length; ++i) {
-            const line = lines[i]
-            if(line.length == 1 && hasAtleast8Words(line[0])) {
+            const line = lines[i]!
+            if(line.length == 1 && hasAtleast8Words(line[0]!)) {
                 idx = i;
                 break;
             }
@@ -88,11 +88,11 @@ const getMostCommonBulletPoint = (str: string):string => {
     for(let char of str) {
         if(bulletToCount.hasOwnProperty(char)) {
             bulletToCount[char] += 1;
-            if(bulletToCount[char] > bulletMaxCount) {
-                bulletMaxCount = bulletToCount[char]
+            if(bulletToCount[char]! > bulletMaxCount) {
+                bulletMaxCount = bulletToCount[char]!
                 bulletWithMostCount = char
             }
         }
     }
-    return bulletWithMostCount;
+    return bulletWithMostCount||"";
 }

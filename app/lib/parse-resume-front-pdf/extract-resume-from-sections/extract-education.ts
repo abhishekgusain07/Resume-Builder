@@ -65,7 +65,7 @@ const GPA_FEATURE_SET: FeatureSet[] = [
 export const extractEducation = (sections: ResumeSectionToLines) => {
     const educations : ResumeEducation[] = []
     const eductaionScores: EducationScores[]= []
-    const lines: Lines = getSectionLinesByKeywords(sections, ["education"]);
+    const lines: Lines = getSectionLinesByKeywords(sections, ["education"])!;
     const subsections: Subsections = divideSectionIntoSubsections(lines)
     ;
 
@@ -94,14 +94,19 @@ export const extractEducation = (sections: ResumeSectionToLines) => {
             const descriptionLines = subsectionLines.slice(descriptionIdx)
             descriptions = getbulletPointsFromLines(descriptionLines)
         }
-
-        educations.push({school, degree, gpa, date, descriptions})
+        
+        educations.push({
+            school:school||"",
+            degree: degree||"",
+            gpa:gpa||"",
+            date:date||"",
+            descriptions})
         eductaionScores.push({ schoolScores, degreeScores, gpaScores, dateScores })
 
         if(educations.length != 0) {
-            const courseLines: Lines = getSectionLinesByKeywords(sections, ["course"]);
+            const courseLines: Lines = getSectionLinesByKeywords(sections, ["course"])!;
             if(courseLines.length != 0) {
-                educations[0].descriptions.push(
+                educations[0]!.descriptions.push(
                     "Courses: " + courseLines.flat().map((item:TextItem)=>item.text).join(" ")
                 )
             };

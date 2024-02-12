@@ -29,11 +29,11 @@ export const groupLinesIntoSection = (lines: Lines) => {
     let sectionLines: any = []
 
     for(let i = 0; i < lines.length; ++i) {
-        const line: Line = lines[i]
+        const line: Line = lines[i]!
         const text = line[0]?.text.trim()
         if(isSectionTitle(line,i)) {
             sections[sectionName] = [...sectionLines]
-            sectionName = text
+            sectionName = text!
             sectionLines = [];
         } else {
             sectionLines.push(line);
@@ -50,7 +50,7 @@ const isSectionTitle = (line: Line, lineNumber: number) => {
     const hasMoreThanOneItemInLine = line.length > 1
     const hasNoItemInLine = line.length === 0
     if(isFirstTwoLine || hasMoreThanOneItemInLine || hasNoItemInLine)return false;
-    const textItem = line[0]
+    const textItem = line[0]!
 
     if(isBold(textItem) && hasLetterAnsIsAllUpperCase(textItem)) {
         return true;

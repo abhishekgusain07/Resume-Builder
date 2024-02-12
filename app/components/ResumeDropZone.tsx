@@ -45,7 +45,7 @@ export const ResumeDropZone = ({
     // handles when we drop some file into the drop zone.
     const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault()
-        const newFile = event.dataTransfer.files[0]
+        const newFile = event.dataTransfer.files[0]!
         if(newFile.name.endsWith(".pdf")) {
             setHasNonPdfFile(false)
             setNewFile(newFile)
@@ -63,7 +63,7 @@ export const ResumeDropZone = ({
         const files = event.target.files
         if(!files)return
 
-        const newFile = files[0]
+        const newFile = files[0]!
         setNewFile(newFile)
     }
 

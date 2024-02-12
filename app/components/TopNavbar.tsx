@@ -35,7 +35,7 @@ export const TopNavBar = () => {
                         ].map(([href, text]) => (
                             <Link 
                                 key = {text}
-                                href={href}
+                                href = {href || ""}
                                 className="rounded-md px-1.5 py-2 text-gray-500 hover:bg-gray-100 focus-visible:bg-gray-100 lg:px-4"
                             >
                                     {text}

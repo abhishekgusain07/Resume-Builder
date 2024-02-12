@@ -6,7 +6,7 @@ import { getDescriptionsLineIdx, getbulletPointsFromLines } from "./lib/bullet-p
 import { getSectionLinesByKeywords } from "./lib/get-section-lines";
 
 export const extractSkills = (sections: ResumeSectionToLines): ResumeSkills | any => {
-    const lines = getSectionLinesByKeywords(sections, ["skills"])
+    const lines = getSectionLinesByKeywords(sections, ["skills"])!
     const descriptionLineIdx = getDescriptionsLineIdx(lines) ?? 0
     const descriptionLines = lines.slice(descriptionLineIdx)
     const descriptions = getbulletPointsFromLines(descriptionLines)
@@ -16,7 +16,7 @@ export const extractSkills = (sections: ResumeSectionToLines): ResumeSkills | an
         const featuredSkillLines: Lines= lines.slice(0, descriptionLineIdx)
         const featuredSkillsTextItems: TextItems= featuredSkillLines.flat().filter((item) => item.text.trim()).slice(0, 6)
         for(let i = 0; i < featuredSkillsTextItems.length; ++i) {
-            featuredSkills[i].skill = featuredSkillsTextItems[i].text
+            featuredSkills[i]!.skill = featuredSkillsTextItems[i]!.text
         }
     }
     const skills: ResumeSkills = {

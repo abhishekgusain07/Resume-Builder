@@ -105,8 +105,8 @@ export const settingsSlice = createSlice({
       const pos = draft.formsOrder.indexOf(form);
       const newPos = type === "up" ? pos - 1 : pos + 1;
       const swapFormOrder = (idx1: number, idx2: number) => {
-        const temp = draft.formsOrder[idx1];
-        draft.formsOrder[idx1] = draft.formsOrder[idx2];
+        const temp = draft.formsOrder[idx1]!;
+        draft.formsOrder[idx1] = draft.formsOrder[idx2]!;
         draft.formsOrder[idx2] = temp;
       };
       if (newPos >= 0 && newPos <= lastIdx) {

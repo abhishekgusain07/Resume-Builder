@@ -1,6 +1,7 @@
 import { ResumeProfile } from "@/app/lib/redux"
 import { ResumePDFSection, ResumePDFText } from "./common";
-import { spacing } from "./styles";
+import { spacing, styles } from "./styles";
+import { View } from "@react-pdf/renderer";
 
 
 export const ResumePDFProfile = ({
@@ -23,6 +24,18 @@ export const ResumePDFProfile = ({
             <ResumePDFText bold={true} themeColor={themeColor} style={{fontSize: "20pt"}}>
                 {name}
             </ResumePDFText>
+            {
+                summary && <ResumePDFText>{summary}</ResumePDFText>
+            }
+            <View
+                style = {{
+                    ...styles.flexRowBetween,
+                    flexWrap: "wrap",
+                    marginTop: spacing["0.5"]
+            }}/>
+            {
+                
+            }
         </ResumePDFSection>
     );
 }

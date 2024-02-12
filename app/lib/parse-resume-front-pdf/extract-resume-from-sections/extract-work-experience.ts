@@ -59,7 +59,7 @@ export const extractWorkExperience = (sections: ResumeSectionToLines) => {
     const lines = getSectionLinesByKeywords(
         sections,
         WORK_EXPERIENCE_KEYWORD_LOWERCASE
-    );
+    )!;
 
     // dividing into subsections.
     const subsections: Subsections = divideSectionIntoSubsections(lines)
@@ -83,8 +83,8 @@ export const extractWorkExperience = (sections: ResumeSectionToLines) => {
         // Feature Set of a company
         const COMPANY_FEATURE_SET: FeatureSet[] = [
             [isBold, 2],
-            [getHasText(date), -4],
-            [getHasText(jobTitle), -4]
+            [getHasText(date!), -4],
+            [getHasText(jobTitle!), -4]
         ]
         const [company, companyScores] =  getTextWithHighestFeatureScore(
             subsectionInfoTextItems,
@@ -94,7 +94,10 @@ export const extractWorkExperience = (sections: ResumeSectionToLines) => {
         const subsectionDescriptionLines = subsectionLines.slice(descriptionLineIdx)
         const descriptions = getbulletPointsFromLines(subsectionDescriptionLines)
 
-        workExperiences.push({company,jobTitle,date,descriptions});
+        workExperiences.push({company:company||"",
+            jobTitle:jobTitle||"",
+            date:date||"",
+            descriptions});
         workExperiencesScore.push({companyScores,jobTitleScore,dateScores})
     }
 

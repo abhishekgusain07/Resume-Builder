@@ -15,7 +15,7 @@ import { ResumeTable } from "./ResumeTable";
 import { initialResumeState } from "../lib/redux/resumeSlice";
 import { ResumeParserAlgorightmArticle } from "./ResumeParserAlgorithmArticle";
 
-const RESUME_EXAMPLES = [
+const RESUME_EXAMPLES= [
     {
       fileUrl: "resume-example/public-resume.pdf",
       description: <span>Took from public sources</span>,
@@ -30,7 +30,7 @@ const RESUME_EXAMPLES = [
       ),
     },
 ];
-const defaultFileUrl = RESUME_EXAMPLES[1]["fileUrl"];
+const defaultFileUrl = RESUME_EXAMPLES[1]!["fileUrl"];
 
 export default function ResumeParser() {
     const [fileUrl, setFileUrl] = useState(defaultFileUrl);

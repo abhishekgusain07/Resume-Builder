@@ -14,7 +14,7 @@ const computeFeatureStore = (
     }))
 
     for(let i = 0; i < textItems.length; ++i) {
-        const textItem: TextItem = textItems[i];
+        const textItem: TextItem = textItems[i]!;
         for(const featureSet of featureSets) {
             const [hasFeature, score, returnMachingText] = featureSet
             const result = hasFeature(textItem)
@@ -24,7 +24,7 @@ const computeFeatureStore = (
                     text = result[0]
                 }
 
-                const textScore = textScores[i]
+                const textScore = textScores[i]!
                 if(textItem.text === text) {
                     textScore.score += score
                     if(returnMachingText) {

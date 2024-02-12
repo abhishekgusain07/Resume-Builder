@@ -1,4 +1,4 @@
-import { Resume } from "../../redux";
+import { Resume, ResumeProfile } from "../../redux";
 import { ResumeSectionToLines } from "../types";
 import { extractEducation } from "./extract-education";
 import { extractProfile } from "./extract-profile";
@@ -19,8 +19,16 @@ export const extractResumeFromSections = (
     const  {projects} = extractProject(sections)
     const {skills} = extractSkills(sections);
     
+    const es2015fuckyou: ResumeProfile = {
+        name: profile.name || '',
+        email: profile.email || '',
+        phone: profile.phone || '',
+        location: profile.location || '',
+        url: profile.url || '',
+        summary: profile.summary || ''
+    }
     return {
-        profile,
+        profile:es2015fuckyou,
         educations,
         workExperiences,
         projects, 

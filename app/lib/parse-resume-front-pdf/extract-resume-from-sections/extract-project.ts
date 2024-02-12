@@ -15,7 +15,7 @@ type ProjectScores = {
 export const extractProject = (sections: ResumeSectionToLines) => {
     const projects: ResumeProject[] = []
     const projectscores: ProjectScores[] = []
-    const lines: Lines = getSectionLinesByKeywords(sections, ["project"])
+    const lines: Lines = getSectionLinesByKeywords(sections, ["project"])!
     const subsections:Subsections = divideSectionIntoSubsections(lines);
     for(const subsectionLines of subsections) {
         const descriptionIdx = getDescriptionsLineIdx(subsectionLines) ?? 1;
@@ -29,7 +29,7 @@ export const extractProject = (sections: ResumeSectionToLines) => {
 
         const PROJECT_FEATURE_SET: FeatureSet[] = [
             [isBold, 2],
-            [getHasText(date), -4]
+            [getHasText(date||""), -4]
         ]
 
         const [project, projectScore] = getTextWithHighestFeatureScore(
@@ -42,8 +42,8 @@ export const extractProject = (sections: ResumeSectionToLines) => {
         const descriptionLines = subsectionLines.slice(descriptionIdx)
         const descriptions = getbulletPointsFromLines(descriptionLines)
         projects.push({
-            project, 
-            date,
+            project:project||"", 
+            date:date||"",
             descriptions
         })
         projectscores.push({

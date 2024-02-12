@@ -25,8 +25,8 @@ export const groupTextItemsIntoLines= (textItems: TextItems) : Lines => {
 
     for (let line of lines) {
         for(let i = line.length-1; i > 0; --i) {
-            const  currentItem = line[i]
-            const lefItem = line[i-1]
+            const  currentItem = line[i]!
+            const lefItem = line[i-1]!
             const leftItemXEnd = lefItem.x + lefItem.width
             const distance = currentItem.x - leftItemXEnd
             if(distance <= typicalCharWidth) {
@@ -46,8 +46,8 @@ export const groupTextItemsIntoLines= (textItems: TextItems) : Lines => {
 
 
 const shouldAddSpaceBetweenText = (leftText:string, rightText:string) => {
-    const leftTextEnd =  leftText[leftText.length-1]
-    const rightTextStart = rightText[0]
+    const leftTextEnd =  leftText[leftText.length-1]!
+    const rightTextStart = rightText[0]!
     const conditions = [
         [":",",","|","."].includes(leftTextEnd) && rightTextStart != " ",
         leftTextEnd != " " && ["|"].includes(rightTextStart)
@@ -74,17 +74,17 @@ const getCharWidth = (textItems: TextItems): number => {
             heightToCount[height] = 0;
         }
         heightToCount[height]++;
-        if(heightToCount[height] > HeightMaxCount) {
+        if(heightToCount[height]! > HeightMaxCount) {
             commonHeight = height
-            HeightMaxCount = heightToCount[height]
+            HeightMaxCount = heightToCount[height]!
         }
         if(!fontNameToCount[fontName]) {
             fontNameToCount[fontName] = 0
         }
         fontNameToCount[fontName]+=text.length;
-        if(fontNameToCount[fontName] > fontNameMaxCount) {
+        if(fontNameToCount[fontName]! > fontNameMaxCount) {
             commonFontName = fontName
-            fontNameMaxCount = fontNameToCount[fontName];
+            fontNameMaxCount = fontNameToCount[fontName]!;
         }
     }
 

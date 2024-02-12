@@ -122,18 +122,18 @@ export const extractProfile = (sections: ResumeSectionToLines) => {
     );
 
     const summaryLines = getSectionLinesByKeywords(sections,["summary"]);
-    const summarySection = summaryLines.flat().map((textItem) => textItem.text).join(" ")
+    const summarySection = summaryLines?.flat().map((textItem) => textItem.text).join(" ")
 
     const objectiveLines = getSectionLinesByKeywords(sections,["objective"]);
-    const objectiveSection = objectiveLines.flat().map((textItem) => textItem.text).join(" ")
+    const objectiveSection = objectiveLines?.flat().map((textItem) => textItem.text).join(" ")
 
     return {
         profile:{
-            name, 
-            email,
-            phone, 
-            location,
-            url, 
+            name: name,
+            email: email,
+            phone: phone,
+            location: location,
+            url: url, 
             summary: summarySection || objectiveSection || summary,
         },
         profileScores: {

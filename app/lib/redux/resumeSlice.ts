@@ -81,12 +81,12 @@ export const resumeSlice = createSlice({
         },
         changeWorkExperience: (draft, action:PayloadAction<CreateChangeActionWithDescription<ResumeWorkExperience>>) => {
             const {idx, field, value} = action.payload
-            const workExperience = draft.workExperiences[idx]
+            const workExperience = draft.workExperiences[idx]!
             workExperience[field] = value as any
         },
         changeEducation: (draft, action:PayloadAction<CreateChangeActionWithDescription<ResumeEducation>>) => {
             const {idx, field, value} = action.payload
-            const education = draft.educations[idx]
+            const education = draft.educations[idx]!
             education[field] = value as any
         },
         changeSkills: (draft, action: PayloadAction<|{
@@ -105,7 +105,7 @@ export const resumeSlice = createSlice({
                 draft.skills.descriptions = value
             } else {
                 const {idx, skill, rating} = action.payload
-                const particularSkill = draft.skills.featuredSkills[idx]
+                const particularSkill = draft.skills.featuredSkills[idx]!
                 particularSkill.skill = skill
                 particularSkill.rating = rating
             }
@@ -138,12 +138,12 @@ export const resumeSlice = createSlice({
                 if(idx === 0 && dir === "up" || (idx === draft[form].length - 1 && dir === "down")) {
                     return draft
                 }
-                const temp = draft[form][idx]
+                const temp = draft[form][idx]!
                 if(dir === "up") {
-                    draft[form][idx] = draft[form][idx-1]
+                    draft[form][idx] = draft[form][idx-1]!
                     draft[form][idx-1] = temp
                 } else {
-                    draft[form][idx] = draft[form][idx+1]
+                    draft[form][idx] = draft[form][idx+1]!
                     draft[form][idx+1] = temp
                 }
             }
